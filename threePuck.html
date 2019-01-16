@@ -18,11 +18,20 @@
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/87/three.js"></script>
 
 		<script>
-			var camera, scene, renderer;
+			
+			
+     var button = document.getElementsByTagName('button')[0];
+    var logelement = document.getElementById('log');
+    function log(txt) {
+      logelement.innerHTML += txt+"\n";
+    }
+   // Called when we get a line of data
+    function onLine(v) {
+      var camera, scene, renderer;
 			var mesh;
 			init();
-			animate();
-			
+      }
+    }
 			function init() {
       				Puck.magOn();
 				camera = new THREE.PerspectiveCamera( 70, window.innerWidth / window.innerHeight, 1, 1000 );
@@ -54,7 +63,47 @@
 			Puck.on('mag', function(xyz) {
 				mesh.rotation.x += x;
 				mesh.rotation.y += y;
+				animate();
 			});
+    // When clicked, connect or disconnect
+    var connection;
+    button.addEventListener("click", function() {
+      if (connection) {
+        log("Closing connection");
+        connection.close();
+        connection = undefined;
+      }
+      log("Opening connection");
+      Puck.connect(function(c) {
+        if (!c) {
+          log("Couldn't connect!");
+          return;
+        }
+        log("Connecting...");
+        connection = c;
+        // Handle the data we get back, and call 'onLine'
+        // whenever we get a line
+        var buf = "";
+        connection.on("data", function(d) {
+          buf += d;
+          var i = buf.indexOf("\n");
+          while (i>=0) {
+            onLine(buf.substr(0,i));
+            buf = buf.substr(i+1);
+            i = buf.indexOf("\n");
+          }
+        });
+        // First, reset Puck.js
+        connection.write("\x10reset();\n", function() {
+          // Wait for it to reset itself
+          setTimeout(function() {
+            // Now tell it to write data on the current light level to Bluetooth 10 times a second
+            connection.write("\x10setWatch(function(){Bluetooth.println('Pressed');},BTN,{repeat:true,debounce:50,edge:'rising'});\n",
+              function() { log("Ready!"); });
+          }, 1500);
+        });
+      });
+    });
 		</script>
 
 	</body>
