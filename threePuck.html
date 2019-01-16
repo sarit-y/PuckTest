@@ -20,20 +20,19 @@
 		<script>
 			
 			
-     var button = document.getElementsByTagName('button')[0];
-    var logelement = document.getElementById('log');
-    function log(txt) {
-      logelement.innerHTML += txt+"\n";
-    }
-   // Called when we get a line of data
-    function onLine(v) {
-      var camera, scene, renderer;
+     		var button = document.getElementsByTagName('button')[0];
+    		var logelement = document.getElementById('log');
+    		function log(txt) {
+      			logelement.innerHTML += txt+"\n";
+    		}
+   		// Called when we get a line of data
+    		function onLine(v) {
+      			var camera, scene, renderer;
 			var mesh;
 			init();
-      }
+      		}
    
 			function init() {
-      				Puck.magOn();
 				camera = new THREE.PerspectiveCamera( 70, window.innerWidth / window.innerHeight, 1, 1000 );
 				camera.position.z = 400;
 				scene = new THREE.Scene();
@@ -60,27 +59,30 @@
 				renderer.render( scene, camera );
 			}
 			
-			Puck.on('mag', function(xyz) {
+			mesh.addEventListener("click", function() {
+      Puck.mag();
 				mesh.rotation.x += x;
 				mesh.rotation.y += y;
 				animate();
-			});
-    // When clicked, connect or disconnect
-    var connection;
-    button.addEventListener("click", function() {
-      if (connection) {
-        log("Closing connection");
-        connection.close();
-        connection = undefined;
-      }
-      log("Opening connection");
-      Puck.connect(function(c) {
-        if (!c) {
-          log("Couldn't connect!");
-          return;
-        }
-        log("Connecting...");
-        connection = c;
+    });
+			
+				
+    			// When clicked, connect or disconnect
+    			var connection;
+    			button.addEventListener("click", function() {
+      			if (connection) {
+        			log("Closing connection");
+        			connection.close();
+        			connection = undefined;
+      			}
+      			log("Opening connection");
+      			Puck.connect(function(c) {
+        			if (!c) {
+          			log("Couldn't connect!");
+          			return;
+        		}
+        		log("Connecting...");
+        		connection = c;
         // Handle the data we get back, and call 'onLine'
         // whenever we get a line
         var buf = "";
