@@ -19,6 +19,8 @@
 
 		<script>
 			
+      			var camera, scene, renderer;
+			var mesh;
 			
      		var button = document.getElementsByTagName('button')[0];
     		var logelement = document.getElementById('log');
@@ -27,8 +29,6 @@
     		}
    		// Called when we get a line of data
     		function onLine(v) {
-      			var camera, scene, renderer;
-			var mesh;
 			init();
       		}
    
