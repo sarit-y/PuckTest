@@ -13,7 +13,8 @@
 		</style>
 	</head>
 	<body>
-
+ 		<script src="https://www.puck-js.com/puck.js"></script>
+  		<script type="text/javascript">
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/87/three.js"></script>
 
 		<script>
@@ -21,6 +22,7 @@
 			var mesh;
 			init();
 			animate();
+			Puck.magOn();
 			function init() {
 				camera = new THREE.PerspectiveCamera( 70, window.innerWidth / window.innerHeight, 1, 1000 );
 				camera.position.z = 400;
@@ -44,10 +46,14 @@
 			}
 			function animate() {
 				requestAnimationFrame( animate );
-				mesh.rotation.x += 0.005;
-				mesh.rotation.y += 0.01;
+				
 				renderer.render( scene, camera );
 			}
+			
+			Puck.on('mag', function(xyz) {
+				mesh.rotation.x += x;
+				mesh.rotation.y += y;
+			});
 		</script>
 
 	</body>
