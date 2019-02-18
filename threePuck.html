@@ -90,19 +90,18 @@
 			
 			window.addEventListener('mousemove', function() {
 				if (connection) {
-					Puck.compass(); 
-				mesh.rotation.x += x;
-				mesh.rotation.y += y;
+					getXYZValue(); 
+				
 				animate();
 				}
     			});
 			
-		/*	Puck.on('mag', function(xyz) {
- 				mesh.rotation.x += x;
-				mesh.rotation.y += y;
-				animate();
-			});*/
-
+function getXYZValue() {
+      Puck.eval("Puck.compass()", function(v) {
+	mesh.rotation.x += x;
+	mesh.rotation.y += y;
+      });
+    }
 				
     			
 		</script>
