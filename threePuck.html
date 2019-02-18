@@ -75,6 +75,7 @@
 				document.body.appendChild( renderer.domElement );
 				//
 				window.addEventListener( 'resize', onWindowResize, false );
+				Puck.magOn();
 			}
 			function onWindowResize() {
 				camera.aspect = window.innerWidth / window.innerHeight;
@@ -88,13 +89,19 @@
 			}
 			
 			window.addEventListener('mousemove', function() {
-					Puck.mag();
+				//	Puck.mag();
 				mesh.rotation.x += x;
 				mesh.rotation.y += y;
 				animate();
 				
     			});
 			
+			Puck.on('mag', function(xyz) {
+ 				mesh.rotation.x += x;
+				mesh.rotation.y += y;
+				animate();
+			});
+
 				
     			
 		</script>
