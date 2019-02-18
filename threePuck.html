@@ -89,18 +89,18 @@
 			}
 			
 			window.addEventListener('mousemove', function() {
-				//	Puck.mag();
+					Puck.compass();
 				mesh.rotation.x += x;
 				mesh.rotation.y += y;
 				animate();
 				
     			});
 			
-			Puck.on('mag', function(xyz) {
+		/*	Puck.on('mag', function(xyz) {
  				mesh.rotation.x += x;
 				mesh.rotation.y += y;
 				animate();
-			});
+			});*/
 
 				
     			
