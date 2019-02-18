@@ -87,7 +87,7 @@
 				renderer.render( scene, camera );
 			}
 			
-			mesh.addEventListener("mousedown", function() {
+			window.addEventListener('mousemove', function() {
 					Puck.mag();
 				mesh.rotation.x += x;
 				mesh.rotation.y += y;
