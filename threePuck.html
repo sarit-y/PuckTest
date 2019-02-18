@@ -56,7 +56,6 @@
             connection.write("\x10setWatch(function(){Bluetooth.println('Pressed');},BTN,{repeat:true,debounce:50,edge:'rising'});\n",
               function() { log("Ready!"); });
           }, 1500);
-	Puck.magOn();
 	animate();	
         });
       });
@@ -91,7 +90,7 @@
 			
 			window.addEventListener('mousemove', function() {
 				if (connection) {
-					Puck.mag(); 
+					Puck.compass(); 
 				mesh.rotation.x += x;
 				mesh.rotation.y += y;
 				animate();
