@@ -63,8 +63,8 @@
 			
 			function getXYZValue() {
       			Puck.eval("Puck.compass()", function(v) {
-					mesh.rotation.x += x;
-					mesh.rotation.y += y;
+					mesh.rotation.x += v.x;
+					mesh.rotation.y += v.y;
 					animate();
 		        	setTimeout(function() {
         		  		getXYZValue();
