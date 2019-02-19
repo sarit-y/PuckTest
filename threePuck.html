@@ -20,46 +20,15 @@
 
 		<script type="text/javascript">
 			
-		var logelement = document.getElementById('log');
-		function log(txt) {
-      			logelement.innerHTML += txt+"\n";
-    		}
-      		var camera, scene, renderer;
+      	var path = document.getElementsByTagName('path')[0];
+      	var camera, scene, renderer;
 		var mesh;
-     		var button = document.getElementsByTagName('button')[0];
-    		var logelement = document.getElementById('log');
+     	var button = document.getElementsByTagName('button')[0];
+    	var logelement = document.getElementById('log');
 		init();
 		animate();
 
-// When clicked, connect or disconnect
-    var connection;
-    button.addEventListener("click", function() {
-      if (connection) {
-        log("Closing connection");
-        connection.close();
-        connection = undefined;
-      }
-      log("Opening connection");
-      Puck.connect(function(c) {
-        if (!c) {
-          log("Couldn't connect!");
-          return;
-        }
-        log("Connecting...");
-        connection = c;
 
-        // First, reset Puck.js
-        connection.write("\x10reset();\n", function() {
-          // Wait for it to reset itself
-          setTimeout(function() {
-            // Now tell it to write data on the current light level to Bluetooth 10 times a second
-            connection.write("\x10setWatch(function(){Bluetooth.println('Pressed');},BTN,{repeat:true,debounce:50,edge:'rising'});\n",
-              function() { log("Ready!"); });
-          }, 1500);
-	animate();	
-        });
-      });
-    });
 			function init() {
 				camera = new THREE.PerspectiveCamera( 70, window.innerWidth / window.innerHeight, 1, 1000 );
 				camera.position.z = 400;
@@ -73,9 +42,7 @@
 				renderer.setPixelRatio( window.devicePixelRatio );
 				renderer.setSize( window.innerWidth, window.innerHeight );
 				document.body.appendChild( renderer.domElement );
-				//
 				window.addEventListener( 'resize', onWindowResize, false );
-			//	Puck.magOn();
 			}
 			function onWindowResize() {
 				camera.aspect = window.innerWidth / window.innerHeight;
@@ -89,20 +56,22 @@
 			}
 			
 			window.addEventListener('mousemove', function() {
-				if (connection) {
 					getXYZValue(); 
 				
-				animate();
-				}
+				
     			});
 			
-function getXYZValue() {
-      Puck.eval("Puck.compass()", function(v) {
-	mesh.rotation.x += x;
-	mesh.rotation.y += y;
-      });
-    }
-				
+			function getXYZValue() {
+      			Puck.eval("Puck.compass()", function(v) {
+					mesh.rotation.x += x;
+					mesh.rotation.y += y;
+					animate();
+		        	setTimeout(function() {
+        		  		getXYZValue();
+        			}, 250);
+      			});
+    		}
+			
     			
 		</script>
 
