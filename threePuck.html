@@ -63,9 +63,12 @@
 			
 			function getXYZValue() {
       			Puck.eval("Puck.mag()", function(v) {
+				if (v)
+				{
 					mesh.rotation.x += v.x;
 					mesh.rotation.y += v.y;
 					animate();
+				}
 		        	setTimeout(function() {
         		  		getXYZValue();
         			}, 250);
