@@ -65,8 +65,9 @@
       			Puck.eval("Puck.mag()", function(v) {
 				if (v)
 				{
-					mesh.rotation.x += v.x;
-					mesh.rotation.y += v.y;
+					mesh.rotation.x = v.x;
+					mesh.rotation.y = v.y;
+					mesh.rotation.z = v.z;
 					animate();
 				}
 		        	setTimeout(function() {
