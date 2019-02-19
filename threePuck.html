@@ -62,7 +62,7 @@
     			});
 			
 			function getXYZValue() {
-      			Puck.eval("Puck.compass()", function(v) {
+      			Puck.eval("Puck.mag()", function(v) {
 					mesh.rotation.x += v.x;
 					mesh.rotation.y += v.y;
 					animate();
